@@ -11,23 +11,24 @@ public class Platformer2DUserControl : MonoBehaviour
     private GameObject BubbleFX;
 
     [SerializeField]
-    private float AlphaWhenJusthit;
+    private float m_invincibleAlphaToggleFrequency;
+    [SerializeField]
+    private float m_AlphaWhenHitInvicibility;
 
+    [SerializeField]
+    private float m_StunTimeWhenHit;
+    [SerializeField]
+    private float m_InvincibleTimeWhenHit;
+
+
+
+    [HideInInspector]
     public bool CanJump;
-    public bool CanWalk;
-    public bool CanDoubleJump;
-    public bool CanInfiniteJump;
+    [HideInInspector] public bool CanWalk;
+    [HideInInspector] public bool CanDoubleJump;
+    [HideInInspector] public bool CanInfiniteJump;
 
     public int  GamepadID;
-
-    [SerializeField]
-    private float   m_stunTime;
-
-    [SerializeField]
-    private float   m_additionalInvincibleTime;
-
-    [SerializeField]
-    private float   m_invincibleAlphaToggleFrequency;
 
     private PlatformerCharacter2D m_Character;
     private bool m_Jump;
@@ -39,6 +40,7 @@ public class Platformer2DUserControl : MonoBehaviour
     private Timer   m_invincibleTimer = new Timer();
     private Stack   m_stack = null;
     private bool    m_hit = false;
+
     public bool    m_invincible = false;
 
     public bool IsInputEnabled = true;
@@ -204,13 +206,13 @@ public class Platformer2DUserControl : MonoBehaviour
             m_invincible = true;
             
             Color c = GetComponent<SpriteRenderer>().color;
-            c.a = AlphaWhenJusthit;
+            c.a = m_AlphaWhenHitInvicibility;
             GetComponent<SpriteRenderer>().color = c;
             
             m_stack.DamageMemory(damage);
-            m_stunTimer.SetTimer(m_stunTime);
+            m_stunTimer.SetTimer(m_StunTimeWhenHit);
             m_Character.SetStunState(true);
-            m_invincibleTimer.SetTimer(m_additionalInvincibleTime);
+            m_invincibleTimer.SetTimer(m_InvincibleTimeWhenHit);
 
             StartCoroutine(BlinkAlpha());
         }
@@ -227,8 +229,6 @@ public class Platformer2DUserControl : MonoBehaviour
 
         float timer = 0.0f;
 
-        float nextAlpha = AlphaWhenJusthit;
-
         while (m_invincible)
         {
             if (timer > m_invincibleAlphaToggleFrequency)
@@ -236,10 +236,10 @@ public class Platformer2DUserControl : MonoBehaviour
                 sprite.color = c;
                 timer = 0.0f;
 
-                if (sprite.color.a == AlphaWhenJusthit)
+                if (sprite.color.a == m_AlphaWhenHitInvicibility)
                     c.a = 1.0f;
                 else
-                    c.a = AlphaWhenJusthit;
+                    c.a = m_AlphaWhenHitInvicibility;
             }
 
             yield return new WaitForSeconds(Time.deltaTime);

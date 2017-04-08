@@ -16,8 +16,6 @@ public class Projectile : MonoBehaviour
     private Rigidbody2D m_rb;
     private GameObject m_playerToIgnore;
 
-    private Matrix4x4   m_worldMatrix = new Matrix4x4();
-
     [SerializeField]
     private float       m_sinusFrequency = 0f;
 
@@ -25,7 +23,6 @@ public class Projectile : MonoBehaviour
     private float       m_sinusAmplitude = 0f;
 
     private Vector2     m_startPos = Vector2.zero;
-    private Vector2     m_up = Vector2.zero;
     private float       m_time = 0f;
 
     public delegate void ProjectileHitEvent(Vector2 hitPoints);
@@ -62,9 +59,11 @@ public class Projectile : MonoBehaviour
     {
         m_time += (Time.deltaTime * m_speedFactor);
 
+        Vector2 oldPos = m_rb.position;
+
         //calculating the new pos in x local space, but in x and y in world space
         Vector2 newPos = m_startPos + (m_time * m_worldDirection) + (m_baseVelocity * Time.deltaTime);
-
+        
         //calculating the y offset
         float sinusFactor = Mathf.Sin(Time.time * m_sinusFrequency) * m_sinusAmplitude;
 
@@ -73,6 +72,8 @@ public class Projectile : MonoBehaviour
         yOffset = sinusFactor * (Vector2)transform.up;
 
         newPos += yOffset;
+
+        //transform.LookAt(newPos);
 
         m_rb.MovePosition(newPos);
 

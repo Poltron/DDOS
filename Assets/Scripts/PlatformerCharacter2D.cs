@@ -6,6 +6,7 @@ namespace UnityStandardAssets._2D
 {
     public class PlatformerCharacter2D : MonoBehaviour
     {
+        [HideInInspector]
         public GameObject fond;
 
         [SerializeField] private GameObject ConfettiFX;

@@ -8,13 +8,16 @@ public class SpawnedWallDestruction : MonoBehaviour
     private GameObject FX;
 
     [SerializeField]
-    private SpriteRenderer part1;
+    private WallPartDestruction part1;
     [SerializeField]
-    private SpriteRenderer part2;
+    private WallPartDestruction part2;
     [SerializeField]
-    private SpriteRenderer part3;
+    private WallPartDestruction part3;
     [SerializeField]
-    private SpriteRenderer part4;
+    private WallPartDestruction part4;
+
+    [SerializeField]
+    private float TimeBeforeWallPartsAreDestroyed;
 
     public float randomMin;
     public float randomMax;
@@ -32,19 +35,22 @@ public class SpawnedWallDestruction : MonoBehaviour
         Instantiate(FX, part2.transform.position, Quaternion.identity);
 
         part1.transform.parent = null;
-        part1.enabled = true;
+        part1.LaunchWall(TimeBeforeWallPartsAreDestroyed);
         part1.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         part1.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(randomMin, randomMax), 5));
+
         part2.transform.parent = null;
-        part2.enabled = true;
+        part2.LaunchWall(TimeBeforeWallPartsAreDestroyed);
         part2.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         part2.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-randomMin, -randomMax), 5));
+
         part3.transform.parent = null;
-        part3.enabled = true;
+        part3.LaunchWall(TimeBeforeWallPartsAreDestroyed);
         part3.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         part3.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(randomMin, randomMax), 5));
+
         part4.transform.parent = null;
-        part4.enabled = true;
+        part4.LaunchWall(TimeBeforeWallPartsAreDestroyed);
         part4.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         part4.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-randomMin, -randomMax), 5));
 
