@@ -33,7 +33,6 @@ sysinfo.txt
 *.apk
 *.unitypackage
 *.prefs
-*.asset
 *.dwlt
 *.txt
 *.mdb
@@ -42,5 +41,3 @@ sysinfo.txt
 *.xml
 *.info
 *.log
-Assets/anim_course.PNG.meta
-Assets/Scene/basic_Lucas_test - Copie.unity.meta
