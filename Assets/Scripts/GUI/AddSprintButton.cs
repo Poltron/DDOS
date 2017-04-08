@@ -6,11 +6,11 @@ public class AddSprintButton : GUIButton
 {
     protected override void DoOnClick()
     {
-        WallAction component = null;
+        InvincibleAction component = null;
 
         foreach (Action action in playerGUI.GetPlayerStack().possibleActions)
         {
-            component = action.GetComponent<WallAction>();
+            component = action.GetComponent<InvincibleAction>();
 
             if (component != null)
             {

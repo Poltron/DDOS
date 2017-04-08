@@ -154,11 +154,11 @@ public class Platformer2DUserControl : MonoBehaviour
 
         if(true == m_invincible && true == m_invincibleTimer.HasElapsedAllTime())
         {
-            //m_invincible = false;
-            //Color c = GetComponent<SpriteRenderer>().color;
-            //c.a = 1;
-            //GetComponent<SpriteRenderer>().color = c;
-            //BubbleFX.SetActive(false);
+            m_invincible = false;
+            Color c = GetComponent<SpriteRenderer>().color;
+            c.a = 1;
+            GetComponent<SpriteRenderer>().color = c;
+            BubbleFX.SetActive(false);
         }
     }
 
@@ -197,63 +197,61 @@ public class Platformer2DUserControl : MonoBehaviour
             return;
         }
 
-            //not invincible
-            if (false == m_invincible && true == m_invincibleTimer.HasElapsedAllTime())
+        //not invincible
+        if (false == m_invincible && true == m_invincibleTimer.HasElapsedAllTime())
         {
-            StartCoroutine("StunCoroutine", damage);
+            m_hit = true;
+            m_invincible = true;
+            
+            Color c = GetComponent<SpriteRenderer>().color;
+            c.a = AlphaWhenJusthit;
+            GetComponent<SpriteRenderer>().color = c;
+            
+            m_stack.DamageMemory(damage);
+            m_stunTimer.SetTimer(m_stunTime);
+            m_Character.SetStunState(true);
+            m_invincibleTimer.SetTimer(m_additionalInvincibleTime);
 
-            //m_hit = true;
-            //m_invincible = true;
-            //
-            //Color c = GetComponent<SpriteRenderer>().color;
-            //c.a = AlphaWhenJusthit;
-            //GetComponent<SpriteRenderer>().color = c;
-            //
-            //m_stack.DamageMemory(damage);
-            //m_stunTimer.SetTimer(m_stunTime);
-            //m_Character.SetStunState(true);
-            //m_invincibleTimer.SetTimer(m_additionalInvincibleTime);
+            StartCoroutine(BlinkAlpha());
         }
     }
 
+    private bool m_blinking;
 
-    private IEnumerator StunCoroutine(float damage)
+    private IEnumerator BlinkAlpha()
     {
-        SpriteRenderer  sprite = GetComponent<SpriteRenderer>();
-        bool            isVisible = true;
+        SpriteRenderer sprite = GetComponent<SpriteRenderer>();
+        Color c = sprite.color;
 
-        m_hit = true;
-        m_invincible = true;
+        m_blinking = true;
 
-        m_stack.DamageMemory(damage);
-        m_stunTimer.SetTimer(m_stunTime);
-        m_Character.SetStunState(true);
-        m_invincibleTimer.SetTimer(m_additionalInvincibleTime);
+        float timer = 0.0f;
 
-        while (false == m_invincibleTimer.HasElapsedAllTime())
+        float nextAlpha = AlphaWhenJusthit;
+
+        while (m_invincible)
         {
-            Color color = sprite.color;
-
-            if(isVisible)
+            if (timer > m_invincibleAlphaToggleFrequency)
             {
-                color.a = 0f;
-            }
-            else
-            {
-                color.a = 1f;
+                sprite.color = c;
+                timer = 0.0f;
+
+                if (sprite.color.a == AlphaWhenJusthit)
+                    c.a = 1.0f;
+                else
+                    c.a = AlphaWhenJusthit;
             }
 
-            isVisible = !isVisible;
-            sprite.color = color;
+            yield return new WaitForSeconds(Time.deltaTime);
 
-            yield return new WaitForSeconds(m_invincibleAlphaToggleFrequency);
+            timer += Time.deltaTime;
         }
 
-        m_invincible = false;
-        Color c = GetComponent<SpriteRenderer>().color;
+        
         c.a = 1;
-        GetComponent<SpriteRenderer>().color = c;
-        BubbleFX.SetActive(false);
+        sprite.color = c;
+
+        m_blinking = false;
     }
 
     private void ApplyHeal(float heal)
