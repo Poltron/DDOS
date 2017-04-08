@@ -474,25 +474,20 @@ public class GameManager : GenericSingleton<GameManager>
             go1.SetActive(false);
             goGO.SetActive(false);
 
-            Debug.Log("3");
-
             yield return new WaitForSeconds(1.0f);
 
             go3.SetActive(false);
             go2.SetActive(true);
-            Debug.Log("2");
 
             yield return new WaitForSeconds(1.0f);
 
             go2.SetActive(false);
             go1.SetActive(true);
-            Debug.Log("1");
 
             yield return new WaitForSeconds(1.0f);
 
             go1.SetActive(false);
             goGO.SetActive(true);
-            Debug.Log("GO");
 
             m_players[0].IsInputEnabled = true;
             m_players[1].IsInputEnabled = true;

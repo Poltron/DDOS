@@ -74,20 +74,6 @@ public class Stack : MonoBehaviour
         OnStackCompositionUpdate();
     }
 
-    private void Start()
-    {
-        //CODE MOVED TO OnEnable()
-      //  foreach (Action permanentAction in permanentActions)
-      //  {
-      //      if (!permanentAction)
-      //          continue;
-      //
-      //      permanentAction.IsEnabled = true;
-      //  }
-      //
-      //  OnStackCompositionUpdate();
-    }
-
     public void AddAction(Action action)
     {
         if (stackTotalMemory + action.MemoryCost > stackMemoryThreshold)
@@ -158,7 +144,13 @@ public class Stack : MonoBehaviour
             thresholdMax = thresholdMin + action.MemoryCost;
 
             if (actualMemory < thresholdMax)
+            {
                 action.IsEnabled = false;
+            }
+            else
+            {
+                action.IsEnabled = true;
+            }
 
             thresholdMin = thresholdMax;
         }
@@ -168,8 +160,6 @@ public class Stack : MonoBehaviour
     {
         for (int i = actions.Count - 1; i >= 0; --i)
         {
-            Debug.Log(actions[i].gameObject.name);
-
             // l'action est enabled
             if (actions[i].IsEnabled)
             {
