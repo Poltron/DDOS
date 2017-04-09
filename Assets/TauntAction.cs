@@ -12,11 +12,8 @@ public class TauntAction : Action
 
         if (TryGetValidGamepad(out gamepad))
         {
-            Debug.Log("can taunt");
-
             if (( gamepad.GetButtonDown("DPad_Up") || gamepad.GetButtonDown("DPad_Down") || gamepad.GetButtonDown("DPad_Left") || gamepad.GetButtonDown("DPad_Right")) && m_controller.IsInputEnabled)
             {
-                Debug.Log("taunt");
                 Do();
             }
         }
