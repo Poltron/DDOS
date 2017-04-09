@@ -136,8 +136,6 @@ public class CACAction : Action
             ActivateTriggerPhysic();
 
             m_controller.GetComponent<Animator>().SetBool("CAC", true);
-
-            Debug.Log("CACACTION");
         }
     }
 

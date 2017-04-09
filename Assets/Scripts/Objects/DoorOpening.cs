@@ -28,6 +28,6 @@ public class DoorOpening : MonoBehaviour
 
     private void OpenDoor()
     {
-        GameObject.Destroy(transform.root.gameObject);
+        GameObject.Destroy(transform.gameObject);
     }
 }
