@@ -1,2 +1,4 @@
 # DDOS
-Projet de la GameWeek 2017
+ISART GameWeek 2017
+
+Split screen versus runner
